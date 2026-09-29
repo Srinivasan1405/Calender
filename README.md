@@ -115,12 +115,16 @@ Test accounts:
 1. Fork or push this repo to your GitHub (this setup pushes to `https://github.com/Srinivasan1405/Calender.git`).
 2. Create a [MongoDB Atlas](https://www.mongodb.com/atlas) free cluster and copy the connection string (use `mongodb+srv://...`).
 3. Go to [Vercel](https://vercel.com/) → Import the repo → Create Project.
-4. Add Environment Variables:
+4. **Project settings (important):**
+   - Root Directory = repository root (leave blank). If you set it to `client`, `api/` and `server/` are excluded from the deployment and the API 404s.
+   - Framework Preset = `Other`
+5. Add Environment Variables (for Production, Preview and Development):
    - `MONGO_URI` = your Atlas connection string
    - `JWT_SECRET` = a long random string (e.g. `openssl rand -base64 32`)
    - `OPENAI_API_KEY` = optional (chat falls back to canned replies)
-5. Deploy. Vercel will build the React frontend and serve the Express API under `/api/*` via `vercel.json`.
-6. Your live app URL will be `https://<project>.vercel.app`.
+6. Deploy.
+7. Verify the API is live before using the app:
+   - `https://<project>.vercel.app/api/health` must return JSON (not the HTML page). It also lists any missing env vars in `missingEnv`.
 
 **Local dev notes:** The client points to `http://localhost:8080/api` by default in `client/.env.example`. For local runs, `npm run dev` uses `concurrently` and launches Express on 8080 + React on 3000.
 

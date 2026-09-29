@@ -57,10 +57,12 @@ function connectDB() {
 
 app.get('/api/health', (req, res) => {
   const states = ['disconnected', 'connected', 'connecting', 'disconnecting'];
+  const missing = ['MONGO_URI', 'JWT_SECRET'].filter((key) => !process.env[key]);
   res.json({
     message: 'RoutineRise API is running',
     version: '2.0',
     database: states[mongoose.connection.readyState] || 'unknown',
+    missingEnv: missing,
   });
 });
 

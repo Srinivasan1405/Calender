@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useMemo, useCallback } from 'react';
-import { authAPI } from '../utils/api';
+import { authAPI, extractErrorMessage } from '../utils/api';
 
 const AuthContext = createContext(null);
 
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
       setUser(response.data.user);
       return response.data;
     } catch (err) {
-      const errorMsg = err.response?.data?.msg || 'Login failed';
+      const errorMsg = extractErrorMessage(err, 'Login failed');
       setError(errorMsg);
       throw new Error(errorMsg);
     }
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }) => {
       setUser(response.data.user);
       return response.data;
     } catch (err) {
-      const errorMsg = err.response?.data?.msg || 'Registration failed';
+      const errorMsg = extractErrorMessage(err, 'Registration failed');
       setError(errorMsg);
       throw new Error(errorMsg);
     }
